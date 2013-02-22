@@ -84,21 +84,18 @@ using namespace std;
 class OlympicCandles {
 public:
   int numberOfNights(vector <int> candles) {
-		int ans = 0;
-		bool flag = true;
-		while(flag && ans<=candles.size()){
+		int ans = 1;
+		int N = candles.size();
+		while(1){
 			sort(candles.begin(), candles.end());
-			for(int i=candles.size()-1; i>int(candles.size())-1-ans; --i){
+			for(int i=N-1; i>N-1-ans; --i){
 				--candles[i];
 				if(candles[i]<0){
-					flag = false;
-					break;
+					return ans-1;
 				}
 			}
-			if(flag)
-				++ans;
+			++ans;
 		}
-		return ans-1;
 	}
 };
 

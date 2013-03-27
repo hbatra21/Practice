@@ -79,49 +79,64 @@ import java.math.*;
 
 public class TheNumberGameDiv2
 {
-  public String reverse(String str) {
-		StringBuilder sb = new StringBuilder();
-	 	for(int i=str.length()-1;i>=0;i--)
-  			sb.append(str.charAt(i));
-  		return sb.toString();
-	}
+	  public String reverse(String str) {
+			StringBuilder sb = new StringBuilder();
+		 	for(int i=str.length()-1;i>=0;i--)
+	  			sb.append(str.charAt(i));
+	  		return sb.toString();
+		}
 
-  public int minimumMoves(int A, int B)
-	{
-		String sA = Integer.toString(A);
-		String sB = Integer.toString(B);
-		if( sA.contains(sB) ){
-			int start = sA.indexOf(sB);
-			//trim lower part
-			int cnt = sA.length()-start-sB.length();	//divide
-			sA = sA.substring(0,start+sB.length());
-			//tri higher part
-			cnt += 1;		//reverse
-			sA = reverse(sA);
-			cnt += start;	//divide
-			sA = sA.substring(0,start+1);
-			if(reverse(sA).equals(sB))
-				cnt += 1;		//reverse
-			return cnt;
+	  public int minimumMoves(int A, int B)
+		{
+			String sA = Integer.toString(A);
+			String sB = Integer.toString(B);
+			int cnt1 = -1, cnt2 = -1;
+			if( sA.contains(sB) ){
+				int start = sA.indexOf(sB);
+				//trim lower part
+				cnt1 = sA.length()-start-sB.length();	//divide
+				sA = sA.substring(0,start+sB.length());
+				if(!sA.equals(sB)){
+					//tri higher part
+					cnt1 += 1;		//reverse
+					sA = reverse(sA);
+					cnt1 += start;	//divide
+					sA = sA.substring(0,sA.length()-start);
+					if(sA.length()>1 && !sA.equals(reverse(sA)) && reverse(sA).equals(sB))
+						cnt1 += 1;		//reverse
+				}
+			}
+			
+			sA = Integer.toString(A);
+			sB = Integer.toString(B);
+			if(!sB.equals(reverse(sB))){
+				if ( sA.contains(reverse(sB)) ){
+					int start = sA.indexOf(reverse(sB));
+					//trim lower part
+					cnt2 = sA.length()-start-sB.length();	//divide
+					sA = sA.substring(0,start+sB.length());
+					if(!sA.equals(sB)){
+						//tri higher part
+						cnt2 += 1;		//reverse
+						sA = reverse(sA);
+						cnt2 += start;	//divide
+						sA = sA.substring(0,sA.length()-start);
+						if(sA.length()>1 && !sA.equals(reverse(sA)) && reverse(sA).equals(sB))
+							cnt2 += 1;		//reverse
+					}
+				}
+			}
+			
+			if(cnt1==-1 && cnt2==-1)
+				return -1;
+			if(cnt1!=-1 && cnt2!=-1)
+				return Math.min(cnt1, cnt2);
+			return (cnt1==-1)?cnt2:cnt1;
+			
 		}
-		else if ( sA.contains(reverse(sB)) ){
-			int start = sA.indexOf(reverse(sB));
-			//trim lower part
-			int cnt = sA.length()-start-sB.length();	//divide
-			sA = sA.substring(0,start+sB.length());
-			//tri higher part
-			cnt += 1;		//reverse
-			sA = reverse(sA);
-			cnt += start;	//divide
-			sA = sA.substring(0,start+1);
-			if(reverse(sA).equals(sB))
-				cnt += 1;		//reverse
-			return cnt;
-		}
-		else
-			return -1;
-	}
-	
+
+
+
 
 }
-//Powered by KawigiEdit 2.1.4 (beta) modified by pivanof!
+//Powered by KawigiEdit 2.1.4 (beta) modified by pivanof!ied by pivanof!
